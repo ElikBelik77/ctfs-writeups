@@ -40,7 +40,7 @@ payload += bytes(frame)
 p.send(payload)
 ```
 This payload sets ```rax = 0xf``` and syscalls, the frame that is loaded gives the registers the values:
-1. ```rax = 0 for ```read``` syscall
+1. ```rax = 0``` for ```read``` syscall
 2. ```rdi = 0``` for ```stdin```
 3. ```rsi = 0x401025``` is the only known address that is also writeable, (which is right after the given code)
 4. ```rsp = 0x401025``` is to align the stack right back to where we are reading into.
