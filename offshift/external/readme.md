@@ -49,7 +49,7 @@ payload = 0x58*b"A"+payload
 p.sendline(payload)
 ```
 We have a rop chain that loads ```rdi = 0, rsi = &GOT``` and returns to a syscall, and to main afterwards.
-Since main returns 0, by the time we are executing the rop chain ```rax = 0``` which is the syscall number for ```read```.
+Since main returns 0, by the time we are executing the rop chain ```rax``` is 0, which is the syscall number for ```read```.
 At the time we syscall, we will actually read back into the GOT table.
 
 ### 2. Rewriting GOT table:
