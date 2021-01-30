@@ -27,7 +27,7 @@ We are not given a libc version, so we have to leak libc version aswell.
 
 
 ## 1. Patching ```exit(1)```
-We'll, main doesn't return, instead it calls ```exit(1)```, and in order to be able to leak, and ret2libc we need to have atleast two rounds of format string attack.
+We'll, ```vuln``` doesn't return, instead it calls ```exit(1)```, and in order to be able to leak, and ret2libc we need to have atleast two rounds of format string attack.
 So we have to patch ```exit(1)``` to something else, in this case it is easy and convenient to patch it with ```vuln```.
 This way, every time vuln finishes, it calls itself and we have endless rounds of format string attacks that we can perform.
 
