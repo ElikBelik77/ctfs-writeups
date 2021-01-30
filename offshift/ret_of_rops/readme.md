@@ -46,7 +46,7 @@ for i in range(0,2):
 ```
 
 
-Send this payload, write ```/bin/sh``` in interactive and get shell :)
+Send this payload and get shell :)
 
 #### Flag
 ```flag{w3_d0n't_n33d_n0_rdx_g4dg3t,ret2csu_15_d3_w4y_7821243}```
