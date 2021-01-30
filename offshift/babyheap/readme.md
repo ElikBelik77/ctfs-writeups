@@ -138,3 +138,5 @@ Chunk 7 will point to ```__free_hook```, and we write the address of a ```one_ga
 
 Now simply ```free(0)``` and we get shell.
 
+#### Flag
+```fl4g{us1ng_4_d0ubl3_fr33_1s_s1mpl3r_s41d_th4n_d0n3_8329321}```
