@@ -104,6 +104,5 @@ We send this line, and then ```exit``` returns us to ```vuln```, write ```/bin/s
 ### How to narrow libc version
 A very nice website at [libc database search](https://libc.nullbyte.cat/) will narrow down the libc version based on known offsets.
 
-
-
-
+#### Flag
+```flag{GOTt4_b3_OVERWRITEing_th0s3_symb0ls_742837423}```
