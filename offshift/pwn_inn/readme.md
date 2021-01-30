@@ -41,7 +41,7 @@ Simply translating the format string:
 "Print the 45th argument to printf as a pointer padded to size of 8 chars."
 The same follows for the 46th argument.
 Now, we ask ourselves what does the 45th and 46th arguments hold? Two halves of the return address of main.
-Main returns to __libc_start_main, and by leaking the return address of the main function we can narrow down the libc version of the remote to a few libc versions.
+Main returns to ```__libc_start_main```, and by leaking the return address of the main function we can narrow down the libc version of the remote to a few libc versions.
 
 ### b. ```%4199080d```
 Yo ```hex(4199080) = 4012A8```, This means that printf will print its' next argument as a decimal, padded by ```4199080``` digits.
