@@ -1,4 +1,13 @@
 ## External 
+#### Description
+No description.
+
+#### Author
+M_alpha
+
+#### Points and solves
+467 points and 69 solves.
+
 We are given a binary, that reads out input, clears the GOT table and somehow we need to get a shell.
 
 ```c
