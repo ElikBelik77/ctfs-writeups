@@ -1,5 +1,5 @@
 # Offshit CTF
-The ctf was at 23.1.2021 - 30.1.2021, and there were two batches of pwn challenges. 
+The ctf was at 23.1.2021 - 30.1.2021.
 1. [Moving signals](./moving_signals), srop
 2. [external](./external), rop + ret2libc
 3. [The Pwn Inn](./pwn_inn), fsb + ret2libc
