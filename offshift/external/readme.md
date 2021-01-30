@@ -22,7 +22,7 @@ undefined8 main(void)
 }
 ```
 
-The function ```clear_got``` does exactly what we expect it to do, it uses ```memeset`` to set the entire GOT to 0.
+The function ```clear_got``` does exactly what we expect it to do, it uses ```memeset``` to set the entire GOT to 0.
 
 In addition, we have a very usefull gadget in one of the setup functions:
 ```asm
