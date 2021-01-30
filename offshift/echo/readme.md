@@ -1,4 +1,14 @@
 ## Echo 
+#### Description
+tell me something to say it back
+
+#### Author
+M_alpha
+
+#### Points and solves
+485 and 45 solvers.
+
+
 We are given a small binary that echos what you write to it using syscalls
 
 The echo function:
@@ -23,29 +33,22 @@ In addition, the author was kind enough to include a ```/bin/sh``` in the code s
 0x401035 <echo+53>:     "/bin/sh"
 ```
 ### Syscall convention
-Quick reminder for x86_64 syscall calling convetions, parameters are passed via ```rdi, rsi, rdx, r10, r8, r9```
-and ```rax``` is used to select the syscall.
+Quick reminder for x86_64 syscall calling convetions, parameters are passed via ```rdi, rsi, rdx, r10, r8, r9``` and ```rax``` is used to select the syscall.
 For pwning the challenge, we will use the read (```rax = 0```) and sigreturn (```rax = 0xf```) syscalls.
 ### The vulnerability(ies)
 1. There is a very obvious buffer overflow, the read syscall will overflow the stack
 since we are reading ```rdx = 0x300``` bytes into ```rsi = rsp - 0x180``` resulting in 0x180 bytes of overflow.
 
-2. Every binary with that uses ```syscall``` should raise your eyebrow, especially because of syscall 0x3b (```exceve```),
+2. Every binary with that uses ```syscall``` should catch your attention, especially because of syscall 0x3b (```exceve```),
 and the syscall 0xf ```sigreturn```.
 
 
-### First attempt at pwning the challenge
-If we can read 0x3b bytes, and at the same time load ```rdi``` with ```/bin/sh``` and return to a syscall -
-we will get shell (since read return the number of bytes read, and will load ```rax = 0x3b```).
-however after few attempts I couldn't find a straight forward way of doing it.
-
-
-### Actually pwning this binary:
+### Pwning the binary
 As I mentioned before we will be using srop to solve this challenge.
 The solution splits into two phases:
 ### 1. Loading the srop frame into the memory:
 On the first call of echo, we will prepare the stack by writing the following payload:
-```0x188*b"A" + p64(elf.sym.echo) + p64(0x40101d) + bytes(frame)```
+```0x188*b"A" + p64(elf.sym.echo) + p64(0x40101d) + bytes(frame)```.
 The first 0x188 bytes are there to overflow the return address with ```echo``` function address.
 When the next call of ```echo``` will return, it'll return to ```0x40101d```.
 ```asm
@@ -72,6 +75,6 @@ frame.rdi = binsh
 frame.rip = 0x401022
 frame.rdx = 0
 ```
-The frame loads all the registers with the appropriate values, and returns to a syscall.
+The frame loads all the registers with the appropriate values, use sigreturn which loads ```rip``` with ```0x401022``` and ```execve(/bin/sh)```
 
 Run it all, and get shell :)
