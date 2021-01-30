@@ -20,9 +20,9 @@ We are given an extermly small binary:
 0x0000000000041019 <+25>:    ret
 ```
 
-# The vulnerability:
+## The vulnerability:
 Well, of course we have full control over ```rip``` using the read syscall.
-In addition we again have a ```syscall``` gadget to use for ```sigreturn``` and ```execve```
+In addition we have a ```syscall``` gadget to use for ```sigreturn``` and ```execve```
 
 
 
