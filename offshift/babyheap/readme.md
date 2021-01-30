@@ -49,7 +49,7 @@ void freeing(void)
 ```
 Well this function indeed frees a chunk but doesn't set the ```heap_buf``` at that index to ```0```, giving us use after free.
 
-2. The libc version of the challenge is 2.27 so we have some freedom doing common heap exploits since this isn't libc >= 2.29
+2. The libc version of the challenge is 2.27 so we have some freedom doing common heap exploits since this isn't libc >= 2.29.
 In particular, we will use unsorted bin libc leak and tcahce dup and tcache poisoning for our advantage.
 ## Our convenience functions:
 ```python
