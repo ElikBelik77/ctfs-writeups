@@ -93,6 +93,7 @@ strcut chunk {
 	INTERNAL_SIZE_T mchunk_size;
 	struct malloc_chunk* fd; //Pointer to the next chunk in the tcache.
 	struct malloc_chunk* bk; //Pointer to the previous chunk in the tcahce.
+}
 ```
 Where the pointer to the chunk actually point to the ```fd``` member.
 Now, imagine:
