@@ -30,9 +30,10 @@ We'll, main doesn't return, instead it calls ```exit(1)```, and in order to be a
 So we have to patch ```exit(1)``` to something else, in this case it is easy and convenient to patch it with ```vuln```.
 This way, every time vuln finishes, it calls itself and we have endless rounds of format string attacks that we can perform.
 
-```
+```python
 p.sendlineafter("? \n", b"%45$08p%46$08p%4199080d%10$nAAAA" + p64(elf.sym.got["exit"]) + 8*b"B")
 ```
+
 Let's breakdown the payload step by step.
 #### a. ```%45$08p%46$08p```
 Simply translating the format string:
@@ -47,7 +48,7 @@ Notice that the ```vuln``` is at: ```0x4012c4```.
 We already printed 16 characters by leaking the 45th and 46th arguments which totals to ```0x4012c``` printed characters.
 This allows us to easily overwrite ```exit``` to ```vuln``` using the next step.
 
-### c. ```%10$nAAAA + p64(elf.sym.got["exit"]) + 8*b"B"
+### c. ```%10$nAAAA + p64(elf.sym.got["exit"]) + 8*b"B"```
 Remind ourselves of the ```%n``` format modifier of printf, which writes the total characters written so far to the value to the pointed by the next argument of printf.
 Or if we specifiy ```%idx$n```, it writes that value to the value pointed by the ```idx```th argument to printf.
 So, with a bit of debugging, it's possible to align the GOT entry for ```exit``` to be the ```10th``` argument to printf. (Using the ```A```s to push the address around the stack, and ```B```s simply for visibility.)
