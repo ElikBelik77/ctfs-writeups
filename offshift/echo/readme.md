@@ -78,3 +78,6 @@ frame.rdx = 0
 The frame loads all the registers with the appropriate values, use sigreturn which loads ```rip``` with ```0x401022``` and ```execve(/bin/sh)```
 
 Run it all, and get shell :)
+
+#### Flag
+```flag{w3ll_1t_1s_n0t_f0rm@t5tr1ng}```
