@@ -7,7 +7,7 @@ Tango
 480 points, 55 solves.
 
 
-This binary is a simpler version of pwn_inn.
+This binary is a simpler version of pwn_inn. I recommend reading pwn_inn first before reading this one, I use some notation from pwn inn's writeup.
 
 ```c
 undefined8 main(void)
