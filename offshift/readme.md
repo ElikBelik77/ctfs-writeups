@@ -1,5 +1,5 @@
 # Offshit CTF
-The ctf was at 23.1.2021 - 30.1.2021 played in the ```Gulag Gang``` team.
+The ctf was at 23.1.2021 - 30.1.2021, I played in the ```Gulag Gang``` team.
 1. [Moving signals](./moving_signals), srop
 2. [external](./external), rop + ret2libc
 3. [The Pwn Inn](./pwn_inn), fsb + ret2libc
