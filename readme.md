@@ -1,3 +1,3 @@
 # CTF Writeups
 
-[Offshift 7/7](./offshift/)
+[Offshift](./offshift/) 7/7 pwn challenges solved. 
