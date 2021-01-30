@@ -1,9 +1,9 @@
 # Offshit CTF
 The ctf was at 23.1.2021 - 30.1.2021, and there were two batches of pwn challenges. 
-1. [Moving signals, srop](./moving_signals)
-2. [external, rop + ret2libc](./external)
-3. [The Pwn Inn, fsb + ret2libc](./pwn_inn)
-4. [Return Of The ROPs, fsb + ret2libc](./ret_of_rops)
-5. [echo, srop](./echo)
-6. [Faking till you're Making, House of Spirits](./faking_making)
-7. [Babyheap, tcache dup & poison](./babyheap)
+1. [Moving signals](./moving_signals), srop
+2. [external](./external), rop + ret2libc
+3. [The Pwn Inn](./pwn_inn), fsb + ret2libc
+4. [Return Of The ROPs](./ret_of_rops), fsb + ret2libc
+5. [echo](./echo), srop
+6. [Faking till you're Making](./faking_making), House of Spirits
+7. [Babyheap](./babyheap), tcache dup & poison
