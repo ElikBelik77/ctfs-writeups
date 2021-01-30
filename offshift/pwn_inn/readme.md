@@ -63,7 +63,7 @@ However, the problem is that the address of system is so large, that in if we wa
 We must split and write in three small batches. (Also possible in two batches)
 
 Lets visualize the address of ```system```.
-For example lets say that ```system``` is at ```0xAAAABBBBCCCCDDDD``` in our case ```0xAAAA = x0000```
+For example lets say that ```system``` is at ```0xAAAABBBBCCCCDDDD``` in our case ```0xAAAA = 0x0000```.
 So, let's assume that ```BBBB``` > ```CCCC``` > ```DDDD```. 
 We can write ```0xDDDD``` characters using printf, and immediatly after that overwrite the first 2 bytes of ```GOT.printf``` with ```DDDD```
 After that, we can print ```0xCCCC-0xDDDD``` bytes, which totals to ```0xCCCC``` characters printed overall and overwrite bytes 3 and 4 of ```GOT.printf```.
