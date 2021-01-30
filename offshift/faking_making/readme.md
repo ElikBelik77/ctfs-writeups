@@ -44,3 +44,7 @@ We read into ```__s``` which lets us overflow the jump into the win function.
 ```fake_chunk1 = p64(0) + p64(0x40) + 6*p64(0)```
 We set the size to 0x40, with PREV_INUSE = 0, and this is enough to trick glibc into thinking this is a legitimate chunk to free.
 After we send this chunk, it is a simple buffer overflow and override the return addres to the win function.
+
+
+#### Flag
+```flag{seems_h0us3_0f_sp1r1ts_w0rks_0n_2.32_then_58493}```
