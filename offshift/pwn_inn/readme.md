@@ -19,7 +19,8 @@ void vuln(void)
   printf("Welcome ");
   printf(local_118);
   exit(1);
-}```
+}
+```
 
 We simply have a classic printf format string attack.
 We are not given a libc version, so we have to leak libc version aswell.
