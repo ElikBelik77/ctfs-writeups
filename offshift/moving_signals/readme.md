@@ -1,4 +1,12 @@
-## Moving signals
+# Moving signals
+#### Description
+We don't like giving binaries that contain loads of information, so we decided that a small program should do for this challenge. Even written in some custom assembly. I wonder how this could be exploited.
+#### Author
+Tango
+#### Points and solves
+442 points, 91 solves.
+
+
 We are given an extermly small binary:
 
 ```asm
