@@ -1,5 +1,13 @@
-## Return of the ROPS
-This binary is a simpler version of pwn_inn.
+# Return Of The ROPs
+#### Description
+Is ROP dead? God no. But it returns from a long awaited time, this time in a weird fashion. Three instructions ... can you pwn it?
+#### Author
+Tango
+#### Points and solves
+480 points, 55 solves.
+
+
+This binary is a simpler version of pwn_inn. I recommend reading pwn_inn first before reading this one, I use some notation from pwn inn's writeup.
 
 ```c
 undefined8 main(void)
@@ -24,7 +32,7 @@ Simple ROP chain to leak ```puts``` address.
 We don't have a libc version, so we use the website [libc database search](https://libc.nullbyte.cat/) to narrow down libc version based on known addresses.
 
 ## Getting shell:
-We overwrite printf with system, in the same manner we did in pwn_inn, just instead using 3 batches, I used 2 batches and discard the ```BBBB``` part because it's just uneccessary. (Because for both it's 0x007f.)
+We overwrite printf with system, in the same manner we did in pwn_inn, just instead using 3 batches, I used 2 batches and discarded the ```BBBB``` part because it's just uneccessary. (Because for both it's 0x007f.)
 
 ```python
 payload = b"%" + ("%05d"%l[0]).encode("ascii") + b"d%13$hn" +\
@@ -38,5 +46,7 @@ for i in range(0,2):
 ```
 
 
-Send this payload, write ```/bin/sh``` in interactive and get shell :)
+Send this payload and get shell :)
 
+#### Flag
+```flag{w3_d0n't_n33d_n0_rdx_g4dg3t,ret2csu_15_d3_w4y_7821243}```

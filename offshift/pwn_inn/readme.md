@@ -1,4 +1,11 @@
-## Pwn_inn
+# The pwn inn
+#### Description
+As we know that crypto is a hot potato right now, we wanted to welcome you to a safe place, The Pwn Inn. We've had many famous faces stay in our Inn, with gets() and printf() rating us 5 stars. We've decided to start making an app, and wanted you guys to be our beta testers! Welcome!
+#### Author
+Tango
+#### Points and solves
+477 points, 58 solves.
+
 In this challenge we are given a binary which calls a function ```vuln```
 ```c
 void vuln(void)
@@ -12,27 +19,29 @@ void vuln(void)
   printf("Welcome ");
   printf(local_118);
   exit(1);
-}```
+}
+```
 
 We simply have a classic printf format string attack.
 We are not given a libc version, so we have to leak libc version aswell.
 
 
 ## 1. Patching ```exit(1)```
-We'll, main doesn't return, instead it calls ```exit(1)```, and in order to be able to leak, and ret2libc we need to have atleast two rounds of format string attack.
+We'll, ```vuln``` doesn't return, instead it calls ```exit(1)```, and in order to be able to leak, and ret2libc we need to have atleast two rounds of format string attack.
 So we have to patch ```exit(1)``` to something else, in this case it is easy and convenient to patch it with ```vuln```.
 This way, every time vuln finishes, it calls itself and we have endless rounds of format string attacks that we can perform.
 
-```
+```python
 p.sendlineafter("? \n", b"%45$08p%46$08p%4199080d%10$nAAAA" + p64(elf.sym.got["exit"]) + 8*b"B")
 ```
+
 Let's breakdown the payload step by step.
 #### a. ```%45$08p%46$08p```
 Simply translating the format string:
 "Print the 45th argument to printf as a pointer padded to size of 8 chars."
 The same follows for the 46th argument.
 Now, we ask ourselves what does the 45th and 46th arguments hold? Two halves of the return address of main.
-Main returns to __libc_start_main, and by leaking the return address of the main function we can narrow down the libc version of the remote to a few libc versions.
+Main returns to ```__libc_start_main```, and by leaking the return address of the main function we can narrow down the libc version of the remote to a few libc versions.
 
 ### b. ```%4199080d```
 Yo ```hex(4199080) = 4012A8```, This means that printf will print its' next argument as a decimal, padded by ```4199080``` digits.
@@ -40,7 +49,7 @@ Notice that the ```vuln``` is at: ```0x4012c4```.
 We already printed 16 characters by leaking the 45th and 46th arguments which totals to ```0x4012c``` printed characters.
 This allows us to easily overwrite ```exit``` to ```vuln``` using the next step.
 
-### c. ```%10$nAAAA + p64(elf.sym.got["exit"]) + 8*b"B"
+### c. ```%10$nAAAA + p64(elf.sym.got["exit"]) + 8*b"B"```
 Remind ourselves of the ```%n``` format modifier of printf, which writes the total characters written so far to the value to the pointed by the next argument of printf.
 Or if we specifiy ```%idx$n```, it writes that value to the value pointed by the ```idx```th argument to printf.
 So, with a bit of debugging, it's possible to align the GOT entry for ```exit``` to be the ```10th``` argument to printf. (Using the ```A```s to push the address around the stack, and ```B```s simply for visibility.)
@@ -54,7 +63,7 @@ However, the problem is that the address of system is so large, that in if we wa
 We must split and write in three small batches. (Also possible in two batches)
 
 Lets visualize the address of ```system```.
-For example lets say that ```system```` is at ```0xAAAABBBBCCCCDDDD``` in our case ```0xAAAA = 0x0000```
+For example lets say that ```system``` is at ```0xAAAABBBBCCCCDDDD``` in our case ```0xAAAA = 0x0000```.
 So, let's assume that ```BBBB``` > ```CCCC``` > ```DDDD```. 
 We can write ```0xDDDD``` characters using printf, and immediatly after that overwrite the first 2 bytes of ```GOT.printf``` with ```DDDD```
 After that, we can print ```0xCCCC-0xDDDD``` bytes, which totals to ```0xCCCC``` characters printed overall and overwrite bytes 3 and 4 of ```GOT.printf```.
@@ -63,7 +72,8 @@ However that assumption doesnt always hold, because libc addresses are randomize
 But sorting ```[BBBB, CCCC, DDDD]``` and constructing the format string from the lowest entry to the highest will make the attack successfull every time.
 
 The final format string attack:
-```l = [third1, third2, third3]
+```python
+l = [third1, third2, third3]
 l.sort()
 payload = b"%" + ("%05d"%l[0]).encode("ascii") + b"d%11$hn" +\
 	b"%" + ("%05d"%(l[1]-l[0])).encode("ascii") + b"d%12$hn" +\
@@ -94,6 +104,5 @@ We send this line, and then ```exit``` returns us to ```vuln```, write ```/bin/s
 ### How to narrow libc version
 A very nice website at [libc database search](https://libc.nullbyte.cat/) will narrow down the libc version based on known offsets.
 
-
-
-
+#### Flag
+```flag{GOTt4_b3_OVERWRITEing_th0s3_symb0ls_742837423}```
