@@ -36,4 +36,4 @@ delete_note(0)
 delete_note(0)
 ```
 
-This gives us write what where bug, which allows us to change the GOT entry of exit to be the address of the win function. 
+This gives us write what where bug, which allows us to change the GOT entry of exit to be the address of the win function.
